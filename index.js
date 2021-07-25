@@ -1,9 +1,10 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+ canvas.width = window.innerWidth;
+ canvas.height = window.innerHeight;
 
 const scoreEl = document.querySelector('#scoreEl');
+const recordEl = document.querySelector('#recordEl');
 const startGameBtn = document.querySelector('#startGameBtn ');
 const modalEl = document.querySelector('#modalEl ');
 const bigScoreEl = document.querySelector('#bigScoreEl ');
@@ -13,6 +14,11 @@ var bum = new Howl({   src: [ 'https://www.stdimension.org/MediaLib/effects/tech
 var bumB = new Howl({   src: [ 'https://dight310.byu.edu/media/audio/FreeLoops.com/3/3/Explosion%20Sounds.wav-21336-Free-Loops.com.mp3']   });
 var kBomba = new Howl({   src: [ './Kapitan-Bomba-Gwiezdny-Patrol-Intro.mp3']   });
 var gameOver = new Howl({   src: [ './Kapitan-Bomba-game-over-wynik.mp3']   });
+
+
+let id 
+let record = 0
+  const kBombaScore = JSON.parse(localStorage.getItem('kBomba-DB')) || [];
 
 class Player {
 	constructor(x, y, radius, color ) {
@@ -24,10 +30,12 @@ class Player {
 	draw() {
 		c.beginPath();
 		c.arc( this.x, this.y, this.radius, 0,  Math.PI  *  2,  false);
+		//c.arc( 360, 360, this.radius, 0,  Math.PI  *  2,  false);
 		c.fillStyle = this.color;	
 		c.fill();
 	}
 }
+
 class Projectile {
 		constructor(x, y, radius, color, velocity ) {
 				this.x =  x;
@@ -68,7 +76,9 @@ class Enemy {
 			this.y = this.y + this.velocity.y;
 		}
 }
+
 const friction = 0.99
+
 class Particle {
 		constructor(x, y, radius, color, velocity ) {
 				this.x =  x;
@@ -96,28 +106,33 @@ class Particle {
 			this.alpha  -=  0.1;
 		}
 }
-const x = canvas.width / 2 
+
+const x = canvas.width /2  
 const y = canvas.height / 2
+
 		let  player = new Player(x,  y,  10,  'white')
 		let projectils = [ ]
 		let enemies = [ ]
 		let particles = [ ]
-function init(){
+
+	function init(){
 		 player = new Player(x,  y,  10,  'white')
-		projectils = [ ]
+		 projectils = [ ]
 		 enemies = [ ]
 		 particles = [ ]
 		 score = 0
 		 scoreEl.innerHTML = score
 		 bigScoreEl.innerHTML = score
-		kBomba.play()
+		//kBomba.play()
+	
 }
+
 function spawnEnemies(){
-	setInterval(() => {
-		    const radius = Math.random() * (30 - 4) +4;
-					let  x, y 
+    	setInterval(() => {
+		    const radius = Math.random() * (30 - 3) + 4;
+		let  x, y 
 		if(Math.random() < 0.5){ 
-		        x =  Math.random()  < 0.5  ?  0 - radius : canvas.width + radius;
+		         x =  Math.random()  < 0.5  ?  0 - radius : canvas.height + radius;
 			     y =  Math.random()  *  canvas.height;
 			}else {
 				    x =  Math.random()  *  canvas.width;
@@ -132,11 +147,13 @@ function spawnEnemies(){
 
 let animatedId  
 let score = 0
+
 function adnimate(){
   animatedId  = requestAnimationFrame(adnimate)
      c.fillStyle = 'rgb(0,0,0,0.1)'
       c.fillRect(0,0,canvas.width, canvas.height)
-	   player.draw();
+	  //c.fillRect(0,0,360, 640)
+	    player.draw();
 		particles.forEach((particle, index )=> {
 			if(particle.alpha <= 0){
 				particles.splice(index, 1)
@@ -161,10 +178,17 @@ enemies.forEach((enemy, index) =>{
 			enemy.update()
 			const dist = Math.hypot(player.x - enemy.x,  player.y - enemy.y )
 							if(dist - enemy.radius - player.radius < 1){
-								gameOver.play();
+								//gameOver.play();
 								cancelAnimationFrame(animatedId)
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
+								 if(record < score){
+								     id = kBombaScore.length + 1;
+									 scoredb  = {id: id, wynik:  score};
+									 kBombaScore.push(scoredb);
+									localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
+								  }
+									
 							}
 		projectils.forEach((projectile, projectileIndex) => {
 				const dist = Math.hypot(projectile.x  -  enemy.x,  projectile.y - enemy.y )
@@ -173,8 +197,8 @@ enemies.forEach((enemy, index) =>{
 					for (let i = 0;  i < enemy.radius * 2;  i++){
 							particles.push(
 								new Particle(projectile.x, projectile.y, Math.random() * 2 , 
-														enemy.color, {x:  (Math.random()  -  0.5) * (Math.random() * 18), 
-																				y:   (Math.random()  -  0.5) * (Math.random() * 18)
+														enemy.color, {x:  (Math.random()  -  0.5) * (Math.random() * 28), 
+																				y:   (Math.random()  -  0.5) * (Math.random() * 28)
 											 } 
 								)
 							)
@@ -203,20 +227,25 @@ enemies.forEach((enemy, index) =>{
       });
 }
 addEventListener('click', (e) => {
-					const angle = Math.atan2(e.clientY - canvas.height /  2, e.clientX - canvas.width / 2 )
+					const angle = Math.atan2(e.clientY - canvas.height/2, e.clientX - canvas.width/2 )
 					const velocity = { x: Math.cos(angle)  * 6,
 												  y: Math.sin(angle) * 6
 												}
-					projectils.push(new Projectile(canvas.width / 2,   canvas.height / 2,  5, 'white', velocity))
+			projectils.push(new Projectile(canvas.width/2,   canvas.height/2 ,  3, 'white', velocity))
       				 let modalElsnd = document.querySelector('#modalEl ').style.display;
-			
 					 if( modalElsnd === 'none' ){
 						 laser.play();
 					 }	
     }  )
 	startGameBtn.addEventListener('click', () => {
+  	   kBombaScore.forEach((scoredb ) => {
+				      record =  scoredb.wynik;
+				  })
+		recordEl.innerHTML=record;
+  console.log(record);
 			init()
 			adnimate()
 			spawnEnemies()
 			modalEl.style.display = 'none' 
 		 })
+
