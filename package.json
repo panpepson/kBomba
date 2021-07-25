@@ -1,0 +1,11 @@
+{
+  "name": "kBomba",
+  "version": "1.0.0",
+  "description": "kBomba Strzelanka w kosmosie ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pepson@o2.pl",
+  "license": "ISC"
+}
