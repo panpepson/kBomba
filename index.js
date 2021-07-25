@@ -20,6 +20,10 @@ let id
 let record = 0
   const kBombaScore = JSON.parse(localStorage.getItem('kBomba-DB')) || [];
 
+ kBombaScore.forEach((scoredb ) => {
+				      record =  scoredb.wynik;
+				  })
+		recordEl.innerHTML=record;
 class Player {
 	constructor(x, y, radius, color ) {
 				this.x =  x;
@@ -123,8 +127,7 @@ const y = canvas.height / 2
 		 score = 0
 		 scoreEl.innerHTML = score
 		 bigScoreEl.innerHTML = score
-		//kBomba.play()
-	
+		kBomba.play()
 }
 
 function spawnEnemies(){
@@ -178,7 +181,7 @@ enemies.forEach((enemy, index) =>{
 			enemy.update()
 			const dist = Math.hypot(player.x - enemy.x,  player.y - enemy.y )
 							if(dist - enemy.radius - player.radius < 1){
-								//gameOver.play();
+							gameOver.play();
 								cancelAnimationFrame(animatedId)
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
@@ -242,7 +245,7 @@ addEventListener('click', (e) => {
 				      record =  scoredb.wynik;
 				  })
 		recordEl.innerHTML=record;
-  console.log(record);
+ //  console.log(record);
 			init()
 			adnimate()
 			spawnEnemies()

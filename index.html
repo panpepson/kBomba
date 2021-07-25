@@ -17,10 +17,16 @@
 			margin:  0px;
 			background: black;
 		}
+	#recordEl{
+		color: yellow
+	}	
+#scoreEl{
+	color: cyan;
+}	
 	</style>
 		
-	<div class='fixed text-white text-xl ml-2 mt-1 select-none'><span>Record:  </span><span id="recordEl">0</span>
-	<span class="justify-end "> - wynik:  <span id="scoreEl">0</span></span>
+	<div class='fixed text-white text-xl ml-2 mt-1 select-none'><span>Twój rekord  </span><span id="recordEl">0</span>
+	<span class="justify-end ">  punkty z laserowej dzidy:  <span id="scoreEl">0</span></span>
 	</div>
 
 <div class="fixed inset-0 flex items-center justify-center"  id="modalEl" >
@@ -30,9 +36,9 @@
 	<div>
 		<button class="bg-blue-500 text-white w-full py-3 rounded-full text-sm"  id="startGameBtn">Start Game</button>
 	</div>
-	<!--
+	
 	<div class='text-center text-xs text-red mt-3'><br>Sample pochodzą z serialu <a href="https://www.youtube.com/c/KapitanBomba">Kapital Bomba  (reż. Bartosz Walaszek)</a><br/> © CDA S.A.  i  zostały użyte jedynie w  celach edukacyjnych.</span></div>
-	-->
+	
 </div>
 </div>
 	<canvas></canvas>
