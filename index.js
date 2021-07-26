@@ -18,9 +18,11 @@ var gameOver = new Howl({   src: [ './Kapitan-Bomba-game-over-wynik.mp3']   });
 
 let id 
 let record = 0
-  const kBombaScore = JSON.parse(localStorage.getItem('kBomba-DB')) || [];
+const kBombaScore = JSON.parse(localStorage.getItem('kBomba-DB')) || [];
 
- kBombaScore.forEach((scoredb ) => {
+kBomba.play()
+
+  kBombaScore.forEach((scoredb ) => {
 				      record =  scoredb.wynik;
 				  })
 		recordEl.innerHTML=record;
@@ -127,7 +129,7 @@ const y = canvas.height / 2
 		 score = 0
 		 scoreEl.innerHTML = score
 		 bigScoreEl.innerHTML = score
-		kBomba.play()
+		
 }
 
 function spawnEnemies(){
