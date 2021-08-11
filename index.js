@@ -13,8 +13,8 @@ var laser = new Howl({   src: [ 'http://gamecodeschool.com/wp-content/uploads/20
 var bum = new Howl({   src: [ 'https://www.stdimension.org/MediaLib/effects/technology/federation/hullbreak2.wav']  });
 var bumB = new Howl({   src: [ 'https://dight310.byu.edu/media/audio/FreeLoops.com/3/3/Explosion%20Sounds.wav-21336-Free-Loops.com.mp3']   });
 var kBomba = new Howl({   src: [ './Kapitan-Bomba-Gwiezdny-Patrol-Intro.mp3']   });
-var gameOver = new Howl({   src: [ './Kapitan-Bomba-game-over-wynik.mp3']   });
-
+var gameOver = new Howl({   src: [ './Kbomba-game-over.mp3']   });
+var wynik = new Howl({   src: [ './Kapitan-Bomba-wynik.mp3']   });
 
 let id 
 let record = 0
@@ -183,15 +183,17 @@ enemies.forEach((enemy, index) =>{
 			enemy.update()
 			const dist = Math.hypot(player.x - enemy.x,  player.y - enemy.y )
 							if(dist - enemy.radius - player.radius < 1){
-							gameOver.play();
+						
 								cancelAnimationFrame(animatedId)
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
+										gameOver.play(); 
 								 if(record < score){
 								     id = kBombaScore.length + 1;
 									 scoredb  = {id: id, wynik:  score};
 									 kBombaScore.push(scoredb);
 									localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
+										setTimeout(() => { wynik.play();  }, 3000);
 								  }
 									
 							}
