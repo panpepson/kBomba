@@ -9,6 +9,8 @@ const startGameBtn = document.querySelector('#startGameBtn ');
 const modalEl = document.querySelector('#modalEl ');
 const bigScoreEl = document.querySelector('#bigScoreEl ');
 
+
+
 var laser = new Howl({   src: [ 'http://gamecodeschool.com/wp-content/uploads/2016/07/asteroids-ship-shoot.wav']   });
 var bum = new Howl({   src: [ 'https://www.stdimension.org/MediaLib/effects/technology/federation/hullbreak2.wav']  });
 var bumB = new Howl({   src: [ 'https://dight310.byu.edu/media/audio/FreeLoops.com/3/3/Explosion%20Sounds.wav-21336-Free-Loops.com.mp3']   });
@@ -179,6 +181,8 @@ projectils.forEach((projectile, index)  => {
 						}, 0)
                   }
 	})
+
+
 enemies.forEach((enemy, index) =>{
 			enemy.update()
 			const dist = Math.hypot(player.x - enemy.x,  player.y - enemy.y )
@@ -187,19 +191,35 @@ enemies.forEach((enemy, index) =>{
 								cancelAnimationFrame(animatedId)
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
-										gameOver.play(); 
-								 if(record < score){
-								     id = kBombaScore.length + 1;
-									 scoredb  = {id: id, wynik:  score};
-									 kBombaScore.push(scoredb);
-									localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
-										setTimeout(() => { wynik.play();  }, 3000);
-								  }
-									
+	
+let myPromise = new Promise((resole, reject) =>{
+										gameOver.play();
+										resole(); 
+							}).then((response) =>{
+	 										if(record < score){
+								     		id = kBombaScore.length + 1;
+  											scoredb  = {id: id, wynik:  score};
+									 		kBombaScore.push(scoredb);
+											localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
+  											setTimeout(() => { wynik.play(); 
+																recordEl.innerHTML= score;
+										                   	}, 3000);
+									     }
+							      return response;
+							})
+//									gameOver.play(); 
+//								 if(record < score){
+//								     id = kBombaScore.length + 1;
+//									 scoredb  = {id: id, wynik:  score};
+//									 kBombaScore.push(scoredb);
+//									localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
+//										setTimeout(() => { wynik.play();  }, 3000);
+//								  }
 							}
-		projectils.forEach((projectile, projectileIndex) => {
-				const dist = Math.hypot(projectile.x  -  enemy.x,  projectile.y - enemy.y )
-						if(dist - enemy.radius - projectile.radius < 1) 
+
+							projectils.forEach((projectile, projectileIndex) => {
+							const dist = Math.hypot(projectile.x  -  enemy.x,  projectile.y - enemy.y )
+								if(dist - enemy.radius - projectile.radius < 1) 
 						{
 					for (let i = 0;  i < enemy.radius * 2;  i++){
 							particles.push(
