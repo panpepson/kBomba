@@ -192,7 +192,7 @@ enemies.forEach((enemy, index) =>{
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
 	
-let myPromise = new Promise((resole, reject) =>{
+return   new Promise((resole, reject) =>{
 										gameOver.play();
 										resole(); 
 							}).then((response) =>{
@@ -200,11 +200,11 @@ let myPromise = new Promise((resole, reject) =>{
 								     		id = kBombaScore.length + 1;
   											scoredb  = {id: id, wynik:  score};
 									 		kBombaScore.push(scoredb);
-											localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));
+											localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));  //zapisuje do Localstoreage
   											setTimeout(() => { wynik.play(); 
 																recordEl.innerHTML= score;
 										                   	}, 3000);
-									     }
+									           }
 							      return response;
 							})
 //									gameOver.play(); 
