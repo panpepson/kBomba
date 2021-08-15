@@ -192,9 +192,9 @@ enemies.forEach((enemy, index) =>{
 									modalEl.style.display = 'flex' ;
 									bigScoreEl.innerHTML=score;
 	
-return   new Promise((resole, reject) =>{
+return   new Promise((resolve, reject) =>{
 										gameOver.play();
-										resole(); 
+										resolve(); 
 							}).then((response) =>{
 	 										if(record < score){
 								     		id = kBombaScore.length + 1;
