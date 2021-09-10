@@ -182,7 +182,6 @@ projectils.forEach((projectile, index)  => {
                   }
 	})
 
-
 enemies.forEach((enemy, index) =>{
 			enemy.update()
 			const dist = Math.hypot(player.x - enemy.x,  player.y - enemy.y )
@@ -200,14 +199,14 @@ return   new Promise((resolve, reject) =>{
 								     		id = kBombaScore.length + 1;
   											scoredb  = {id: id, wynik:  score};
 									 		kBombaScore.push(scoredb);
-											localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));  //zapisuje do Localstoreage
+														localStorage.setItem("kBomba-DB", JSON.stringify(kBombaScore));  //zapisuje do Localstoreage
   											setTimeout(() => { wynik.play(); 
 																recordEl.innerHTML= score;
 										                   	}, 3000);
 									           }
 							      return response;
 							})
-//									gameOver.play(); 
+//							gameOver.play(); 
 //								 if(record < score){
 //								     id = kBombaScore.length + 1;
 //									 scoredb  = {id: id, wynik:  score};
